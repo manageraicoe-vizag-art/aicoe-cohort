@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register · AI Builders Cohort</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a href="index.html" class="row" aria-label="Back to the programme page"><img class="logo logo-light" src="assets/rtih-logo.png" alt="RTIH Visakhapatnam"><img class="logo logo-dark" src="assets/rtih-logo-light.png" alt="RTIH Visakhapatnam"></a>
+  <span class="tag">AI Builders Cohort</span>
+</div></header>
+<main class="wrap" style="padding-bottom:40px">
+  <h1 style="font-size:30px">Register</h1>
+  <p class="sub">Takes about 3 minutes. Next you'll see your college's payment options.</p>
+  <div id="closed" class="errbox" hidden>Registration is closed.</div>
+  <div class="steps" aria-hidden="true"><div data-s="1">1 · About you</div><div data-s="2">2 · Skills</div><div data-s="3">3 · Confirm</div></div>
+  <p class="sr" id="stepLive" aria-live="polite"></p>
+
+  <form id="form" novalidate>
+    <section class="card" data-step="1">
+      <h2>About you</h2>
+      <p class="sub">Use the details your college has on record.</p>
+      <div class="grid">
+        <label class="f full">College <select name="college_id" id="college" required><option value="">Select your college</option></select><span class="err" data-for="college_id"></span></label>
+        <label class="f full">Full name <small>As it should appear on your certificate</small><input type="text" name="name" autocomplete="name" maxlength="80" required><span class="err" data-for="name"></span></label>
+        <label class="f">College student ID <small>Roll or registration number</small><input type="text" name="student_id" maxlength="30" autocapitalize="characters" required><span class="err" data-for="student_id"></span></label>
+        <label class="f">Mobile number <small>WhatsApp, for your team group</small><span class="phone"><span>+91</span><input type="tel" name="phone" inputmode="numeric" autocomplete="tel-national" maxlength="10" required></span><span class="err" data-for="phone"></span></label>
+        <label class="f full">Email <small>Every update, your team and your certificate come here</small><input type="email" name="email" autocomplete="email" maxlength="100" required><span class="err" data-for="email"></span></label>
+        <label class="f">Year of study <select name="year" id="year" required><option value="">Select</option></select><span class="err" data-for="year"></span></label>
+        <label class="f">Branch <select name="branch" id="branch" required><option value="">Select</option></select><span class="err" data-for="branch"></span></label>
+        <label class="f full" id="branchOtherWrap" hidden>Your branch <input type="text" name="branch_other" maxlength="60"><span class="err" data-for="branch_other"></span></label>
+        <label class="f full">GitHub username <small>Optional now, needed by Week 1. Create one free at github.com</small><input type="text" name="github" maxlength="39" autocapitalize="none" spellcheck="false"><span class="err" data-for="github"></span></label>
+      </div>
+      <div class="nav"><span></span><button type="button" data-next>Next</button></div>
+    </section>
+
+    <section class="card" data-step="2" hidden>
+      <h2>Your skills</h2>
+      <p class="sub">Only used to build balanced teams, so be honest. 1 = new to it, 2 = some experience, 3 = confident. Beginners are welcome.</p>
+      <div id="ratings"></div>
+      <span class="err" data-for="ratings"></span>
+      <div class="grid" style="margin-top:16px">
+        <label class="f full">Anyone you already know who is registering? <small>Optional. Their emails, separated by commas. We put friends in different teams on purpose.</small><input type="text" name="knows" maxlength="300" autocapitalize="none" spellcheck="false"></label>
+        <label class="check full"><input type="checkbox" name="consent_share_phone" checked> My teammates may see my mobile number for our team WhatsApp group.</label>
+        <label class="check full"><input type="checkbox" name="consent_startups"> If my team is in the top 25%, RTIH may share my email and mobile number with RTIH-incubated startups looking for interns. (Name, project and GitHub profile are shared either way.)</label>
+      </div>
+      <div class="nav"><button type="button" class="ghost" data-back>Back</button><button type="button" data-next>Next</button></div>
+    </section>
+
+    <section class="card" data-step="3" hidden>
+      <h2>Check and submit</h2>
+      <dl class="kv" id="review" style="margin-bottom:16px"></dl>
+      <label class="check"><input type="checkbox" name="consent_data"> I agree that my details are shared with my college and RTIH AI CoE to run this programme: payment checks, team formation, certificates and, for top teams, internship referrals to RTIH-incubated startups. They are not used for anything else, and payment screenshots are deleted after the programme.</label>
+      <span class="err" data-for="consent_data"></span>
+      <div id="captcha" style="margin-top:14px"></div>
+      <p class="errbox" id="submitErr" role="alert" hidden></p>
+      <div class="nav"><button type="button" class="ghost" data-back>Back</button><button type="submit" id="submitBtn">Register and continue to payment</button></div>
+    </section>
+  </form>
+
+  <section class="card" id="done" hidden tabindex="-1">
+    <h2>You're registered</h2>
+    <p>Your reference number:</p><div class="ref" id="refNo"></div>
+    <p id="doneText"></p>
+  </section>
+  <footer class="site">Questions: <span id="contact">head.aicoe-vizag@rtih.co.in</span></footer>
+</main>
+<script type="module" src="js/register.js"></script>
+</body>
+</html>

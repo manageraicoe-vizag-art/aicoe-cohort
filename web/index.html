@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Builders Cohort</title>
+<meta name="description" content="A 3-week online programme by RTIH Visakhapatnam: build and ship a real AI app with a team of four.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<style>
+.hero { padding: 8px 0 8px; }
+.weeks { display: grid; gap: 10px; margin: 18px 0; }
+.week { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 12px; align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.week b { color: var(--purple); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 10px; margin: 18px 0; }
+.fact { border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.fact b { display: block; font-size: 24px; }
+.fact span { color: var(--muted); font-size: 13px; }
+ul.take { padding-left: 20px; margin: 8px 0 0; } ul.take li { margin-bottom: 4px; }
+.cta { position: sticky; bottom: 0; background: var(--bg); padding: 12px 0; border-top: 1px solid var(--line); margin-top: 24px; }
+.cta .btn { width: 100%; font-size: 17px; min-height: 52px; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="row"><img class="logo logo-light" src="assets/rtih-logo.png" alt="RTIH Visakhapatnam"><img class="logo logo-dark" src="assets/rtih-logo-light.png" alt="RTIH Visakhapatnam"></div>
+  <span class="tag">AI Centre of Excellence</span>
+</div></header>
+<main class="wrap">
+  <section class="hero">
+    <h1>Build and ship a real <em>AI app</em> in 3 weeks.</h1>
+    <p class="lead">The AI Builders Cohort is an online programme by RTIH Visakhapatnam. With a team of four, you turn real documents into an AI assistant that answers with sources, then publish it for anyone to try.</p>
+  </section>
+
+  <div class="facts">
+    <div class="fact"><b>3 weeks</b><span>online</span></div>
+    <div class="fact"><b>4</b><span>students per team</span></div>
+    <div class="fact"><b>$10</b><span>AI credit per team, provided</span></div>
+    <div class="fact"><b id="fee">₹250</b><span>per student, paid to your college</span></div>
+  </div>
+
+  <h2>What you'll do</h2>
+  <div class="weeks">
+    <div class="week"><b>Week 1</b><span>Collect, clean and model your data into a search-ready database</span></div>
+    <div class="week"><b>Week 2</b><span>Build an assistant that answers from it with hybrid search and sources</span></div>
+    <div class="week"><b>Week 3</b><span>Improve it with measured experiments and publish it on the RTIH showcase</span></div>
+  </div>
+  <p class="note">Live session every <strong>Sunday, 11 am to 12 pm IST</strong>. Optional and recorded: each week's guide covers every step.</p>
+
+  <h2 style="margin-top:22px">What you take away</h2>
+  <ul class="take">
+    <li>A live AI app with your name on it, and a public GitHub record of your work</li>
+    <li>Real skills: data preparation, RAG and hybrid search, the OpenAI API, Git and GitHub, deployment</li>
+    <li>A verifiable certificate from RTIH Visakhapatnam</li>
+    <li>The top 25% of teams present at RTIH, earn a Certificate of Distinction, and are recommended to RTIH-incubated startups hiring interns</li>
+  </ul>
+
+  <p class="hint" id="deadline" style="margin-top:18px"></p>
+  <div class="cta"><a class="btn" href="register.html" id="regBtn">Register now</a></div>
+  <footer class="site">Questions: <span id="contact">head.aicoe-vizag@rtih.co.in</span> · <a href="admin.html">Staff sign-in</a></footer>
+</main>
+<script type="module">
+import { readPublic, configured } from './js/api.js';
+if (configured) {
+  try {
+    const [s] = await readPublic('settings?select=fee_inr,deadline,registration_open,contact&id=eq.1');
+    if (s) {
+      document.getElementById('fee').textContent = '₹' + s.fee_inr;
+      document.getElementById('contact').textContent = s.contact;
+      if (s.deadline) document.getElementById('deadline').textContent = 'Register by ' + new Date(s.deadline + 'T00:00:00').toLocaleDateString('en-IN', { dateStyle: 'long' }) + '.';
+      if (!s.registration_open) { const b = document.getElementById('regBtn'); b.textContent = 'Registration is closed'; b.removeAttribute('href'); b.setAttribute('aria-disabled', 'true'); b.style.opacity = '.55'; }
+    }
+  } catch (e) { /* page still works with defaults */ }
+}
+</script>
+</body>
+</html>

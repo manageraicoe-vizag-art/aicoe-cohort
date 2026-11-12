@@ -1,0 +1,12 @@
+# Only the function settings this project needs. `supabase link` fills in the rest.
+[functions.register]
+verify_jwt = false   # public: students are not signed in
+
+[functions.payment]
+verify_jwt = false   # public: protected by each student's personal token
+
+[functions.reminders]
+verify_jwt = false   # called by the scheduled job with x-cron-secret
+
+[functions.staff]
+verify_jwt = false   # the function itself checks the signed-in user and the staff list

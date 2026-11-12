@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cohort Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header class="site"><div class="wide">
+  <div class="row"><img class="logo logo-light" src="assets/rtih-logo.png" alt="RTIH Visakhapatnam"><img class="logo logo-dark" src="assets/rtih-logo-light.png" alt="RTIH Visakhapatnam"><span class="tag">Cohort admin</span></div>
+  <div class="row" id="who" hidden>
+    <label class="sr" for="collegePick">College</label>
+    <select id="collegePick" style="width:auto;min-width:200px"></select>
+    <span class="hint" id="meLabel"></span>
+    <button class="ghost small" id="signOut">Sign out</button>
+  </div>
+</div></header>
+
+<main class="wide" style="padding-top:20px;padding-bottom:40px">
+  <section id="login" class="card" style="max-width:460px;margin:40px auto" hidden>
+    <h2>Sign in</h2>
+    <p class="sub">Enter your staff email. We'll send you a sign-in link.</p>
+    <form id="loginForm" class="row" style="align-items:flex-end">
+      <label class="f" style="flex:1 1 240px">Email <input type="email" id="loginEmail" required autocomplete="email"></label>
+      <button type="submit">Send link</button>
+    </form>
+    <p id="loginMsg" class="hint" style="margin-top:12px"></p>
+  </section>
+
+  <section id="app" hidden>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+
+    <div data-tab="overview">
+      <div class="grid3" id="stats" style="margin-bottom:14px"></div>
+      <div class="tablebox"><table id="overviewTable"></table></div>
+      <p class="hint">Amount collected counts confirmed students of colleges whose students pay. Credit to buy is about $10 per team of four.</p>
+    </div>
+
+    <div data-tab="students" hidden>
+      <div class="row" style="margin-bottom:12px">
+        <label class="sr" for="fStatus">Status</label>
+        <select id="fStatus" style="width:auto">
+          <option value="">All statuses</option><option value="payment_submitted">To check</option><option value="registered">Not paid yet</option>
+          <option value="confirmed">Confirmed</option><option value="rejected">Rejected</option><option value="withdrawn">Withdrawn</option>
+        </select>
+        <label class="sr" for="fSearch">Search</label>
+        <input type="text" id="fSearch" placeholder="Search name, email, ID, reference, payment ref" style="flex:1 1 260px;width:auto">
+        <button class="ghost small" id="exportCsv">Export CSV</button>
+      </div>
+      <div class="tablebox"><table id="studentTable"></table></div>
+      <p class="hint" id="studentCount"></p>
+    </div>
+
+    <div data-tab="teams" hidden>
+      <div id="teamsNeedCollege" class="note">Choose one college at the top: teams are formed within a college, because each college's OpenAI credit is separate.</div>
+      <div id="teamsPanel" hidden>
+        <div class="row" style="margin-bottom:10px">
+          <span id="teamsInfo" class="hint"></span>
+        </div>
+        <div class="row" style="margin-bottom:14px">
+          <button id="genTeams">Generate teams</button>
+          <button class="ghost" id="reshuffle" disabled>Reshuffle</button>
+          <button class="ghost" id="saveTeams" disabled>Save draft</button>
+          <button id="publishTeams" disabled>Publish and email teams</button>
+        </div>
+        <div id="draftTeams" class="teamgrid"></div>
+        <h3 style="margin-top:24px">Published teams and API keys</h3>
+        <p class="hint">Paste each team's key from the college's OpenAI organisation (one project per team, hard limit on). Keys are stored encrypted; only the last 4 characters are shown again.</p>
+        <div class="tablebox"><table id="keyTable"></table></div>
+        <div class="row" style="margin-top:12px">
+          <button id="sendKeys">Email keys to key holders</button>
+          <button class="ghost small" id="resendTeams">Resend team emails that failed</button>
+          <button class="danger small" id="deleteKeys">Delete this college's keys</button>
+        </div>
+      </div>
+    </div>
+
+    <div data-tab="colleges" hidden>
+      <div class="row" style="margin-bottom:12px"><button id="addCollege">Add college</button></div>
+      <div class="tablebox"><table id="collegeTable"></table></div>
+    </div>
+
+    <div data-tab="staff" hidden>
+      <form id="staffForm" class="card grid" style="margin-bottom:14px">
+        <label class="f">Email <input type="email" name="email" required></label>
+        <label class="f">Name <input type="text" name="name"></label>
+        <label class="f">Role <select name="role"><option value="coordinator">College coordinator</option><option value="admin">RTIH admin</option></select></label>
+        <label class="f">College <select name="college_id" id="staffCollege"></select></label>
+        <div class="full"><button type="submit">Add staff</button> <span class="hint">They sign in with this email; nothing else to send.</span></div>
+      </form>
+      <div class="tablebox"><table id="staffTable"></table></div>
+    </div>
+
+    <div data-tab="emails" hidden>
+      <div class="tablebox"><table id="emailTable"></table></div>
+      <p class="hint">Latest 300 emails. Email bodies are not stored.</p>
+    </div>
+
+    <div data-tab="settings" hidden>
+      <form id="settingsForm" class="card grid">
+        <label class="f">Programme name <input type="text" name="programme"></label>
+        <label class="f">Fee per student (₹) <input type="number" name="fee_inr" min="0"></label>
+        <label class="f">Registration deadline <input type="date" name="deadline"></label>
+        <label class="check" style="align-self:end"><input type="checkbox" name="registration_open"> Registration is open</label>
+        <label class="f">Contact email <input type="email" name="contact"></label>
+        <label class="f">Website address <small>Used in email links, e.g. https://cohort.rtih.co.in</small><input type="url" name="site_url"></label>
+        <label class="f full">Session line in emails <input type="text" name="session_info"></label>
+        <label class="f">Session link <input type="url" name="session_link"></label>
+        <label class="f">Week 1 guide link <input type="url" name="guide_link"></label>
+        <div class="full"><button type="submit">Save settings</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg"><div class="dhead"><h3 id="dlgTitle"></h3><button class="ghost small" id="dlgClose" aria-label="Close">Close</button></div><div class="dbody" id="dlgBody"></div><div class="dfoot" id="dlgFoot"></div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="module" src="js/admin.js"></script>
+</body>
+</html>

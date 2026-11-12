@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Payment · AI Builders Cohort</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+.paytabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.paytabs button { flex: 1 1 110px; background: transparent; color: var(--purple); }
+.paytabs button[aria-selected=true] { background: var(--purple); color: #fff; }
+.paybox { border: 1px dashed var(--purple); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <div class="row"><img class="logo logo-light" src="assets/rtih-logo.png" alt="RTIH Visakhapatnam"><img class="logo logo-dark" src="assets/rtih-logo-light.png" alt="RTIH Visakhapatnam"></div>
+  <span class="tag">AI Builders Cohort</span>
+</div></header>
+<main class="wrap" style="padding-bottom:40px">
+  <h1 style="font-size:30px">Payment</h1>
+  <div id="loading" class="hint">Loading your registration...</div>
+  <div id="fatal" class="errbox" hidden></div>
+
+  <div id="page" hidden>
+    <div id="newBanner" class="okbox" hidden style="margin-bottom:12px">You're registered. We've emailed you this payment link, so you can also finish later.</div>
+    <p>Hi <strong id="who"></strong>, your reference is <strong id="refTop"></strong>.</p>
+    <div id="statusBox" style="margin-bottom:14px"></div>
+    <button class="ghost small" id="again" hidden>Submit different payment details</button>
+
+    <section class="card" id="payCard" hidden>
+      <h2>Pay <span id="payee"></span></h2>
+      <p class="sub">The fee goes to your college, which buys the AI credit for your team. RTIH never collects money.</p>
+      <div class="paytabs" role="tablist" id="tabs"></div>
+      <div class="paybox">
+        <div><span class="hint">Amount</span><div class="amount" id="amount"></div></div>
+        <div id="pane-upi" role="tabpanel" hidden>
+          <dl class="kv"><dt>UPI ID</dt><dd><span id="upiId"></span><button type="button" class="small ghost" data-copy="upiId">Copy</button></dd><dt>Pay to</dt><dd id="upiName"></dd></dl>
+          <p style="margin:12px 0 0"><a class="btn" id="upiLink" href="#">Open UPI app</a></p>
+          <p class="hint">On a phone this opens GPay, PhonePe, Paytm or your bank app with the amount filled in. Check that the name shown is your college.</p>
+        </div>
+        <div id="pane-qr" role="tabpanel" hidden>
+          <div class="qr" id="qrBox" role="img" aria-label="UPI payment QR code"></div>
+          <p class="hint">Scan with any UPI app. Check that the name shown is your college.</p>
+        </div>
+        <div id="pane-bank" role="tabpanel" hidden>
+          <dl class="kv">
+            <dt>Account name</dt><dd id="bkName"></dd><dt>Bank</dt><dd id="bkBank"></dd>
+            <dt>Account no.</dt><dd><span id="bkAcc"></span><button type="button" class="small ghost" data-copy="bkAcc">Copy</button></dd>
+            <dt>IFSC</dt><dd><span id="bkIfsc"></span><button type="button" class="small ghost" data-copy="bkIfsc">Copy</button></dd>
+          </dl>
+        </div>
+        <div id="pane-cash" role="tabpanel" hidden>
+          <dl class="kv"><dt>Pay at</dt><dd id="cashAt"></dd></dl>
+          <p class="hint">Pay in cash and ask for a receipt. You can submit now and pay before the deadline.</p>
+        </div>
+        <p class="hint" style="margin:0" id="noteWrap">Add this note to the payment: <strong id="payNote"></strong></p>
+      </div>
+      <p class="warn">Pay only your college, using the details shown here. RTIH will never ask you to pay anyone else.</p>
+      <form id="form" class="grid" novalidate style="margin-top:14px">
+        <label class="f">Paying by <select name="mode" id="mode"><option value="">Select</option></select><span class="err" data-for="mode"></span></label>
+        <label class="f"><span id="refLabel">Last 6 digits of the UTR</span> <small id="refHint"></small><input type="text" name="ref" id="ref" maxlength="6" spellcheck="false" autocomplete="off"><span class="err" data-for="ref"></span></label>
+        <label class="f full"><span id="fileLabel">Payment screenshot</span> <small>JPG, PNG or PDF, up to 2 MB</small><input type="file" name="file" accept="image/jpeg,image/png,application/pdf"><span class="err" data-for="file"></span></label>
+        <p class="errbox full" id="submitErr" role="alert" hidden></p>
+        <div class="full"><button type="submit" id="submitBtn">Submit payment details</button></div>
+      </form>
+    </section>
+  </div>
+  <footer class="site">Questions: <span id="contact">head.aicoe-vizag@rtih.co.in</span></footer>
+</main>
+<script type="module" src="js/pay.js"></script>
+</body>
+</html>

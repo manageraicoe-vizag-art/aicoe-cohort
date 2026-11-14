@@ -1,0 +1,6 @@
+openai>=1.66
+numpy>=1.26
+pypdf>=4.0
+beautifulsoup4>=4.12
+python-dotenv>=1.0
+streamlit>=1.40
